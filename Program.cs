@@ -13,8 +13,9 @@ namespace ConsoleGame
             Console.WindowHeight = 18;
             Console.CursorVisible = false;
 
-            int coints = 0;
             int playerX = 1, playerY = 1;
+
+            char[] cointsCollection = new char[1];
 
             char[,] map =
             {
@@ -35,6 +36,14 @@ namespace ConsoleGame
             };
             while (isOpen)
             {
+                Console.SetCursorPosition(0, 15);
+                Console.Write("Монеты:");
+                for (int i = 0; i < cointsCollection.Length; i++)
+                {
+                    Console.Write(cointsCollection[i] + " ");
+                }
+
+                Console.SetCursorPosition(0, 0);
                 for (int i = 0; i < map.GetLength(0); i++)
                 {
                     for (int j = 0; j < map.GetLength(1); j++)
@@ -45,10 +54,6 @@ namespace ConsoleGame
                 }
                 Console.SetCursorPosition(playerY, playerX);
                 Console.Write('@');
-                Console.SetCursorPosition(19, 3);
-                Console.WriteLine($"Собрано монет: {coints}/15");
-                Console.SetCursorPosition(0, 15);
-                Console.Write($"Управление стрелочками.");
 
                 ConsoleKeyInfo userKey = Console.ReadKey();
                 switch (userKey.Key)
@@ -81,8 +86,14 @@ namespace ConsoleGame
 
                 if (map[playerX, playerY] == 'o')
                 {
-                    coints += 1;
                     map[playerX, playerY] = ' ';
+                    char[] tempArray = new char[cointsCollection.Length + 1]; 
+                    for (int i = 0; i < cointsCollection.Length; i++)
+                    {
+                        tempArray[i] = cointsCollection[i];
+                    }
+                    tempArray[tempArray.Length - 1] = 'o';
+                    cointsCollection = tempArray;
                 }
 
                 Console.Clear();
